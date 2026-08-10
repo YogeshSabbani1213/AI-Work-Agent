@@ -55,7 +55,7 @@ function App() {
         </p>
 
         <div className="mt-8 rounded-xl border border-slate-800 bg-slate-900 p-6">
-          <label className="mb-3 block text-sm font-medium">
+          <label className="mb-3 block text-xl font-medium">
             What do you need to get done?
           </label>
 
