@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 // Request and Response are TypeScript types provided by Express.
 // Request represents information coming from the client.
 // Response represents what our server sends back to the client.
+
 export const processWork = (req:Request,res:Response): void => {
   // req.body contains the JSON data sent by the frontend.
   const { request } = req.body;
