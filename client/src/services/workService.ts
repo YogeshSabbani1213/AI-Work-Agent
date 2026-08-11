@@ -5,6 +5,7 @@ import api from "../api/api";
 //
 // TypeScript uses this interface to make sure that
 // processWork() receives the correct data structure.
+//An interface describes the shape of an object.
 interface WorkRequest {
   request: string;
 }
@@ -25,7 +26,8 @@ interface WorkResponse {
 // Keeping API calls inside services means our React
 // components don't need to know endpoint URLs.
 export const processWork = async (data: WorkRequest): Promise<WorkResponse> => {
-  const response = await api.post<WorkResponse>("/work", data);
+  const response = await api.post<WorkResponse>("/work", data);//"The response from this request should be treated as a WorkResponse."
+  
     console.log("responseData:",response.data)
   return response.data;
 };
