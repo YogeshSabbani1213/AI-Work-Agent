@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { processWork } from "./services/workService";
 
 function App() {
   // useState<string> tells TypeScript that request must always be a string.
@@ -12,36 +13,26 @@ function App() {
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async () => {
-    if (!request.trim()) {
-      return;
-    }
+  if (!request.trim()) {
+    return;
+  }
 
-    try {
-      setLoading(true);
-      setResponse("");
+  try {
+    setLoading(true);
+    setResponse("");
 
-      // fetch() is built into the browser, so we don't need Axios for this.
-      const result = await fetch("http://localhost:5000/api/work", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          request
-        })
-      });
+    const data = await processWork({
+      request
+    });
 
-      const data = await result.json();
-
-      setResponse(data.message);
-    } catch (error) {
-      // "unknown" is the safest type for errors in TypeScript.
-      console.error("Request failed:", error);
-      setResponse("Something went wrong while contacting the server.");
-    } finally {
-      setLoading(false);
-    }
-  };
+    setResponse(data.message);
+  } catch (error) {
+    console.error("Request failed:", error);
+    setResponse("Something went wrong while contacting the server.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-slate-950 px-4 py-10 text-white">
