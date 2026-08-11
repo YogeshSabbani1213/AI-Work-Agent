@@ -1,9 +1,13 @@
 import express from 'express'
 import cors from 'cors'
+import workRoutes from './routes/workRoutes.js'
 
 const app = express();
 app.use(cors())
 app.use(express.json())
+
+
+app.use('/api/work/',workRoutes);
 
 // Simple test route.
 // This helps us confirm that our backend is working.
