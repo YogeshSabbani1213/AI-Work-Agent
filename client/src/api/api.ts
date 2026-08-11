@@ -1,4 +1,13 @@
-// Base URL of our backend API.
-// Keeping this in one place means we only need to change it once
-// when we deploy our backend.
-export const API_BASE_URL = "http://localhost:5000/api";
+import axios from "axios";
+
+// This is the base URL of our backend API.
+// Keeping it in one place means we don't have to repeat
+// "http://localhost:5000" throughout the frontend.
+const api = axios.create({
+  baseURL: "http://localhost:5000/api",
+  headers: {
+    "Content-Type": "application/json"
+  }
+});
+
+export default api;
