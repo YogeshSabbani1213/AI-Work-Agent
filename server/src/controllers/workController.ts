@@ -1,29 +1,38 @@
 import { Request, Response } from "express";
+import prisma from "../db/prisma.js";
 
-// Request and Response are TypeScript types provided by Express.
-// Request represents information coming from the client.
-// Response represents what our server sends back to the client.
-
-export const processWork = (req:Request,res:Response): void => {
-  // req.body contains the JSON data sent by the frontend.
+// Handles POST /api/work
+export const processWork = async (req: Request, res: Response): Promise<void> => {
   const { request } = req.body;
 
-  // Basic validation.
-  // We don't want to process an empty request.
+  // Validate the request before accessing the database.
   if (!request || typeof request !== "string" || !request.trim()) {
     res.status(400).json({
       success: false,
       message: "Work request is required."
     });
+    return;
   }
 
-  // For now, we are only testing the full-stack connection.
-  // Later, this controller will call our AI/agent service.
-  res.status(200).json({
-    success: true,
-    message: "Work request received successfully.",
-    data: {
-      request
-    }
-  });
+  try {
+    // Create a new WorkRequest record in MySQL.
+    const workRequest = await prisma.workRequest.create({
+      data: {
+        originalRequest: request.trim()
+      }
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Work request saved successfully.",
+      data: workRequest
+    });
+  } catch (error) {
+    console.error("Failed to save work request:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to save work request."
+    });
+  }
 };
